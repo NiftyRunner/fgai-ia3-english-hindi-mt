@@ -1,0 +1,5 @@
+Model,Vocab Size,Tokenizer Type,Avg Tokens / Sent,Subwords / Word
+Model A (Custom SPM),16000,Unigram SPM,28.86,1.42
+Model B (mT5-small),250100,Multilingual SPM,41.95,2.06
+Model C (LLaMA-3.2-1B),128000,Byte-level BPE,54.97,2.7
+Model D (Gemma),262144,SentencePiece (256k),27.9,1.37

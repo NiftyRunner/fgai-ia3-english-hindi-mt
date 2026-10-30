@@ -1,0 +1,103 @@
+# Global Configuration for English->Hindi Machine Translation
+# Foundations of Generative AI (ICT4403) - Assignment 3
+
+project:
+  name: "mt-fgai-assignment3"
+  seed: 42
+
+# Dataset & Language Setup (Configurable for swapping language pairs)
+dataset:
+  name: "cfilt/iitb-english-hindi"
+  src_lang: "en"
+  tgt_lang: "hi"
+
+# Preprocessing & Cleaning Constraints
+preprocessing:
+  max_words: 40                      # Maximum words allowed on either source or target side
+  min_length_ratio: 0.33             # Minimum ratio: len(src) / len(tgt)
+  max_length_ratio: 3.00             # Maximum ratio: len(src) / len(tgt)
+  min_devanagari_alpha_ratio: 0.50   # At least 50% of alphabetic characters in Hindi target must be Devanagari
+
+# Dataset Split Sizes
+splits:
+  train_size: 50000                  # Strict 50,000 pairs
+  val_size: 1000                     # 1,000 validation pairs carved from train
+  test_size: 1000                    # 1,000 test pairs subsampled from original IITB test set
+  llm_subset_size: 2500              # Accelerated manageable subset (Kartikey strategy, 5-8 min training)
+  temperature_eval_size: 300         # Fixed 300 test-set slice for sampling temperature analysis
+  probe_random_samples: 20           # Number of random test set samples included in ethical review
+
+# Token Length & Generation Constraints
+generation:
+  max_source_length: 128             # Token budget for source input (Models A & B)
+  max_target_length: 128             # Token budget for target reference (Models A & B)
+  max_new_tokens: 192                # Maximum tokens to generate (Models C & D)
+  temperatures: [0.2, 0.7, 1.0]      # Sampling temperatures for analysis
+  top_p: 0.95                        # Nucleus sampling probability
+  beam_size: 4                       # Beam search width (optional setting)
+
+# Model Architectures & Training Hyperparameters
+models:
+  # Model A: Basic Transformer from scratch (PyTorch)
+  transformer_scratch:
+    name: "transformer_scratch"
+    vocab_size: 16000
+    d_model: 256
+    nhead: 4
+    num_encoder_layers: 3
+    num_decoder_layers: 3
+    dim_feedforward: 1024
+    dropout: 0.1
+    label_smoothing: 0.1
+    batch_size: 64
+    epochs: 15
+    lr: 0.0005
+    warmup_steps: 4000
+    clip_grad_norm: 1.0
+
+  # Model B: mT5-small (Pretrained Encoder-Decoder)
+  mt5_small:
+    name: "google/mt5-small"
+    prefix: "translate English to Hindi: "
+    batch_size: 8
+    gradient_accumulation_steps: 4   # Effective batch size: 32
+    epochs: 3
+    lr: 0.0003
+    fp16: false                      # CRITICAL: mT5 in fp16 suffers severe underflow on T4. Use fp32.
+
+  # Model C: LLaMA-3.2-1B-Instruct (Decoder-Only)
+  llama_3_2_1b:
+    name: "meta-llama/Llama-3.2-1B-Instruct"
+    batch_size: 4
+    gradient_accumulation_steps: 8   # Effective batch size: 32
+    epochs: 1
+    lr: 0.0002
+    lora_r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+
+  # Model D: Gemma-3-1b-it / Fallback Gemma-2-2b-it (Decoder-Only)
+  gemma:
+    primary_name: "google/gemma-3-1b-it"
+    fallback_name: "google/gemma-2-2b-it"
+    attn_implementation: "eager"     # Avoid FlashAttention-2 / SDPA kernel incompatibility on T4
+    batch_size: 4
+    gradient_accumulation_steps: 8   # Effective batch size: 32
+    epochs: 1
+    lr: 0.0002
+    lora_r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+
+# Repository Paths
+paths:
+  data_dir: "data"
+  splits_dir: "data/splits"
+  results_dir: "results"
+  predictions_dir: "results/predictions"
+  metrics_dir: "results/metrics"
+  temperature_dir: "results/temperature"
+  plots_dir: "results/plots"
+  ethics_dir: "results/ethics"

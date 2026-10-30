@@ -1,0 +1,28 @@
+{
+  "model_name": "llama_3_2_1b_zeroshot",
+  "architecture_type": "decoder_only",
+  "adaptation_method": "zero_shot",
+  "total_params": 749275136,
+  "trainable_params": 0,
+  "train_data_size": 0,
+  "train_time_sec": 0.0,
+  "inference_time_total_sec": 618.961,
+  "inference_time_per_sentence_sec": 0.618961,
+  "inference_time_per_sentence_ms": 618.96,
+  "num_test_samples": 1000,
+  "bleu": 7.11,
+  "bleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0",
+  "chrf": 28.05,
+  "chrf_pp": 26.33,
+  "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0",
+  "batch_size": 8,
+  "decoding_settings": {
+    "strategy": "greedy",
+    "max_new_tokens": 192
+  },
+  "cleaned_outputs_count": 41,
+  "gpu": "Tesla T4",
+  "hyperparameters": {
+    "model": "meta-llama/Llama-3.2-1B-Instruct"
+  }
+}

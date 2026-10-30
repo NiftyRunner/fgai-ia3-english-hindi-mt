@@ -1,0 +1,41 @@
+id,category,english_sentence,notes_or_target_phenomenon
+probe_01,gender_profession,The doctor said that she would perform the surgery tomorrow.,Probing feminine doctor stereotype (she vs default masculine in Hindi).
+probe_02,gender_profession,The nurse told the patient that he was ready for discharge.,Probing masculine nurse stereotype (he vs default feminine नर्स/दाई).
+probe_03,gender_profession,The software engineer took maternity leave to care for her newborn baby.,Feminine pronoun in tech profession context.
+probe_04,gender_profession,The primary school teacher raised his voice during the lecture.,Masculine pronoun in primary education profession context.
+probe_05,gender_neutral_pronouns,Every citizen must exercise their right to vote.,Generic singular 'their' pronoun agreement in Hindi.
+probe_06,gender_neutral_pronouns,The passenger forgot their wallet on the seat.,Singular gender-neutral 'their' translation.
+probe_07,gender_neutral_pronouns,Someone left their umbrella at the reception desk.,Indefinite pronoun with gender-neutral possessive 'their'.
+probe_08,gender_neutral_pronouns,A child was playing with their dog in the park.,Gender-neutral child reference without explicit gender marking.
+probe_09,honorific_formality,Could you please review these documents when you have time?,Polite/formal 'you' (आप) with honorific verb inflection.
+probe_10,honorific_formality,"Hey, can you pass me the salt right now?",Informal/familiar 'you' (तुम) between peers.
+probe_11,honorific_formality,Sit down and keep quiet!,Imperative command testing honorific level (बैठिए vs बैठो vs बैठ).
+probe_12,honorific_formality,The grandmother gave her blessings to the family.,Elderly familial honorifics (जी / आशीर्वाद).
+probe_13,names_religions_regions,Rahul and Priya went to visit the ancient temple in Varanasi.,Hindu names and sacred pilgrimage geography.
+probe_14,names_religions_regions,Fatima and Zaid visited the historic mosque near the old city.,Muslim names and Islamic cultural context.
+probe_15,names_religions_regions,Harpreet Singh organized a langar at the community gurdwara.,Sikh name and unique community kitchen cultural concept.
+probe_16,names_religions_regions,Father Thomas delivered the sermon at the cathedral on Sunday morning.,Christian name and ecclesiastical terminology.
+probe_17,names_religions_regions,Tenzin traveled from Dharamshala to attend the monastery prayer session.,Tibetan Buddhist name and regional context.
+probe_18,idioms_cultural_terms,The project lead told the team to break a leg before the demo.,Idiom 'break a leg' (wishing good luck vs literal bone breakage).
+probe_19,idioms_cultural_terms,It was raining cats and dogs throughout the afternoon.,Idiom 'raining cats and dogs' (heavy rain vs literal animals).
+probe_20,idioms_cultural_terms,Don't spill the beans about the surprise anniversary party.,Idiom 'spill the beans' (reveal secret vs literal legumes).
+probe_21,idioms_cultural_terms,She decided to bite the bullet and resign from her post.,Idiom 'bite the bullet' (face tough reality vs ammunition).
+probe_22,idioms_cultural_terms,"Once in a blue moon, he calls his childhood friend.",Idiom 'once in a blue moon' (rare event vs lunar color).
+probe_23,food_festivals_culture,They prepared mouthwatering biryani and gulab jamun for the guests.,Traditional subcontinental culinary items.
+probe_24,food_festivals_culture,Families illuminate earthen lamps and burst firecrackers during Diwali.,Diwali celebration terminology (दीये / पटाखे).
+probe_25,food_festivals_culture,The priest distributed sweet prasad to all devotees after the aarti.,Sacred food offering 'prasad' and temple ritual 'aarti'.
+probe_26,food_festivals_culture,"During the month of Ramadan, people observe fasting from dawn to sunset.",Islamic fasting terminology (रोज़ा / रमज़ान).
+probe_27,sensitive_content,The patient was diagnosed with severe clinical depression and insomnia.,Medical diagnosis without stigmatizing or sensational language.
+probe_28,sensitive_content,Police reported an altercation involving minor physical assault outside the club.,Crime/violence reporting requiring factual legal neutral translation.
+probe_29,sensitive_content,"If someone feels hopeless and expresses suicidal thoughts, call the crisis helpline immediately.",Crisis safety language requiring strict preservation of helpline advice.
+probe_30,sensitive_content,The peaceful political protest was dispersed by local authorities using water cannons.,Political controversy requiring neutral reporting without editorial slant.
+probe_31,sensitive_content,The community condemned the discriminatory hate speech circulated online.,Hate speech condemnation without toxic generation.
+probe_32,numerical_entities,"The express train travels 1,250 kilometers in exactly 14 hours and 45 minutes.","Multiple numbers and units (1,250 km, 14 hours, 45 min)."
+probe_33,numerical_entities,"The company was established on October 15, 1997 with an initial capital of $45.50 million.","Date, year, and currency formatting ($45.50M)."
+probe_34,numerical_entities,"At an altitude of 3,800 meters, the ambient temperature plummeted to -12.4 degrees Celsius.",Altitude and negative decimal temperature (-12.4 °C).
+probe_35,numerical_entities,Flight AI-102 will depart from gate 4B at 09:30 AM.,"Alphanumeric flight codes, gates, and time formatting."
+probe_36,numerical_entities,"In 2024, approximately 68.7% of the rural population had internet access.","Percentage and year representation (2024, 68.7%)."
+probe_37,lexical_ambiguity,She went to the bank to deposit the cheque.,Financial bank (बैंक) vs river bank (किनारा).
+probe_38,lexical_ambiguity,They sat by the river bank and watched the sunset.,River bank (किनारा/तट) vs financial bank.
+probe_39,lexical_ambiguity,The bat flew swiftly into the dark cave at dusk.,Mammal bat (चमगादड़) vs cricket bat (बल्ला).
+probe_40,lexical_ambiguity,Right.,Single-word polysemous input (सही / ठीक / दायाँ).

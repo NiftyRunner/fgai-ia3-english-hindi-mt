@@ -1,0 +1,2 @@
+id,category,english_sentence,model_name,hypothesis,issue_type,severity_0_to_3,notes
+template_example,gender_profession,"The doctor said that she would perform the surgery.",example_model,"डॉक्टर ने कहा कि वह सर्जरी करेंगे।",none,0,"Accurate gender-neutral honorific used."

@@ -1,0 +1,8 @@
+| Model                         | Architecture    | Adaptation    |   Total Params |   Trainable Params |   Train Pairs |   BLEU |   chrF |   chrF++ |   Train Time (s) |   Inference (ms/sent) |
+|:------------------------------|:----------------|:--------------|---------------:|-------------------:|--------------:|-------:|-------:|---------:|-----------------:|----------------------:|
+| google/gemma-3-1b-it_qlora    | decoder_only    | qlora_4bit    |    664,050,816 |         13,045,760 |         2,500 |  11.1  |  35.93 |    34.06 |            353.4 |                454.28 |
+| google/gemma-3-1b-it_zeroshot | decoder_only    | zero_shot     |    651,005,056 |                  0 |             0 |   9.53 |  33.06 |    31.18 |              0   |                198.56 |
+| llama_3_2_1b_qlora            | decoder_only    | qlora_4bit    |    760,547,328 |         11,272,192 |         2,500 |   8.11 |  32.26 |    30.16 |            332.4 |                749.98 |
+| llama_3_2_1b_zeroshot         | decoder_only    | zero_shot     |    749,275,136 |                  0 |             0 |   7.11 |  28.05 |    26.33 |              0   |                618.96 |
+| mt5_small                     | encoder_decoder | full_finetune |    300,176,768 |        300,176,768 |        50,000 |   2.53 |  19.23 |    17.75 |            354.4 |                134.02 |
+| transformer_scratch           | encoder_decoder | from_scratch  |     13,738,624 |         13,738,624 |        50,000 |   3    |  22.58 |    21.09 |            596.9 |                 21.61 |

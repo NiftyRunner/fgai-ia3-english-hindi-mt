@@ -1,0 +1,26 @@
+# Machine Learning & Deep Learning Framework
+torch==2.5.1
+
+# Hugging Face Ecosystem
+transformers==4.46.3
+datasets==3.1.0
+accelerate==1.1.1
+peft==0.13.2
+trl==0.12.1
+
+# Quantization
+bitsandbytes==0.44.1
+
+# Tokenization & Evaluation Metrics
+sentencepiece==0.2.0
+sacrebleu==2.4.3
+evaluate==0.4.3
+
+# Scientific Computing & Data Processing
+pandas==2.2.2
+scipy==1.14.1
+pyyaml==6.0.2
+tqdm==4.67.0
+
+# Visualization
+matplotlib==3.9.2

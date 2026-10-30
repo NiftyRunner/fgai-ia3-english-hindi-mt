@@ -1,0 +1,41 @@
+{
+  "model_name": "transformer_scratch",
+  "architecture_type": "encoder_decoder",
+  "adaptation_method": "from_scratch",
+  "total_params": 13738624,
+  "trainable_params": 13738624,
+  "train_data_size": 50000,
+  "train_time_sec": 596.89,
+  "inference_time_total_sec": 21.614,
+  "inference_time_per_sentence_sec": 0.021614,
+  "inference_time_per_sentence_ms": 21.61,
+  "num_test_samples": 1000,
+  "bleu": 3.0,
+  "bleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp",
+  "chrf": 22.58,
+  "chrf_pp": 21.09,
+  "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no",
+  "batch_size": 32,
+  "decoding_settings": {
+    "strategy": "greedy",
+    "max_length": 128
+  },
+  "cleaned_outputs_count": 0,
+  "gpu": "Tesla T4",
+  "hyperparameters": {
+    "name": "transformer_scratch",
+    "vocab_size": 16000,
+    "d_model": 256,
+    "nhead": 4,
+    "num_encoder_layers": 3,
+    "num_decoder_layers": 3,
+    "dim_feedforward": 1024,
+    "dropout": 0.1,
+    "label_smoothing": 0.1,
+    "batch_size": 64,
+    "epochs": 15,
+    "lr": 0.0005,
+    "warmup_steps": 4000,
+    "clip_grad_norm": 1.0
+  }
+}
