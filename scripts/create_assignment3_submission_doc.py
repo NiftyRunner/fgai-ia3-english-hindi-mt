@@ -5,6 +5,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
 from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import qn, nsdecls
+from docx.opc.constants import RELATIONSHIP_TYPE
 
 def set_cell_background(cell, fill_hex):
     tcPr = cell._tc.get_or_add_tcPr()
@@ -36,6 +37,28 @@ def set_table_borders(table, color="D3D3D3", sz="4"):
         f'</w:tblBorders>'
     )
     tblPr.append(borders)
+
+def add_hyperlink(paragraph, url, text, color="0563C1", underline=True, font_size_pt=10):
+    part = paragraph.part
+    r_id = part.relate_to(url, RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+    sz_val = int(font_size_pt * 2)
+
+    hyperlink = parse_xml(
+        f'<w:hyperlink {nsdecls("w")} {nsdecls("r")} r:id="{r_id}">'
+        f'<w:r>'
+        f'<w:rPr>'
+        f'<w:rFonts {nsdecls("w")} w:ascii="Calibri" w:hAnsi="Calibri"/>'
+        f'<w:sz {nsdecls("w")} w:val="{sz_val}"/>'
+        f'<w:szCs {nsdecls("w")} w:val="{sz_val}"/>'
+        f'<w:color {nsdecls("w")} w:val="{color}"/>'
+        f'{"<w:u " + nsdecls("w") + " w:val=\'single\'/>" if underline else ""}'
+        f'</w:rPr>'
+        f'<w:t {nsdecls("w")}>{text}</w:t>'
+        f'</w:r>'
+        f'</w:hyperlink>'
+    )
+    paragraph._p.append(hyperlink)
+    return hyperlink
 
 def build_document(output_paths):
     doc = Document()
@@ -82,15 +105,19 @@ def build_document(output_paths):
     meta_table.autofit = False
     set_table_borders(meta_table, color="D0D7DE", sz="4")
 
-    meta_rows = [
-        ("Student Name:", "Parth Verma"),
-        ("Registration Number:", "230953436"),
-        ("Course & Assignment:", "Foundations of Generative AI (ICT4403) - Assignment 3"),
-        ("Dataset & Source:", "IIT Bombay English-Hindi Parallel Corpus (cfilt/iitb-english-hindi)\nhttps://huggingface.co/datasets/cfilt/iitb-english-hindi"),
-        ("GitHub Repository Link:", "https://github.com/NiftyRunner/fgai-ia3-english-hindi-mt"),
+    # Define fields
+    fields = [
+        ("Student Name:", "text", "Parth Verma"),
+        ("Registration Number:", "text", "230953436"),
+        ("Course & Assignment:", "text", "Foundations of Generative AI (ICT4403) - Assignment 3"),
+        ("Dataset & Source:", "dataset", {
+            "name": "IIT Bombay English-Hindi Parallel Corpus (cfilt/iitb-english-hindi)",
+            "url": "https://huggingface.co/datasets/cfilt/iitb-english-hindi"
+        }),
+        ("GitHub Repository Link:", "link", "https://github.com/NiftyRunner/fgai-ia3-english-hindi-mt"),
     ]
 
-    for i, (k, v) in enumerate(meta_rows):
+    for i, (label, f_type, val) in enumerate(fields):
         row = meta_table.rows[i]
         c0, c1 = row.cells[0], row.cells[1]
         c0.width = Inches(2.2)
@@ -103,7 +130,7 @@ def build_document(output_paths):
         p0 = c0.paragraphs[0]
         p0.paragraph_format.space_before = Pt(2)
         p0.paragraph_format.space_after = Pt(2)
-        r0 = p0.add_run(k)
+        r0 = p0.add_run(label)
         r0.bold = True
         r0.font.size = Pt(10)
         r0.font.color.rgb = RGBColor(0x1F, 0x38, 0x64)
@@ -111,10 +138,16 @@ def build_document(output_paths):
         p1 = c1.paragraphs[0]
         p1.paragraph_format.space_before = Pt(2)
         p1.paragraph_format.space_after = Pt(2)
-        r1 = p1.add_run(v)
-        r1.font.size = Pt(10)
-        if "http" in v:
-            r1.font.color.rgb = RGBColor(0x05, 0x63, 0xC1)
+
+        if f_type == "text":
+            r1 = p1.add_run(val)
+            r1.font.size = Pt(10)
+        elif f_type == "link":
+            add_hyperlink(p1, val, val, color="0563C1", underline=True, font_size_pt=10)
+        elif f_type == "dataset":
+            r1 = p1.add_run(val["name"] + "\n")
+            r1.font.size = Pt(10)
+            add_hyperlink(p1, val["url"], val["url"], color="0563C1", underline=True, font_size_pt=10)
 
     p_spacer = doc.add_paragraph()
     p_spacer.paragraph_format.space_before = Pt(6)
@@ -169,8 +202,11 @@ def build_document(output_paths):
     p2.paragraph_format.space_after = Pt(4)
     p2.paragraph_format.line_spacing = 1.15
     p2.add_run(
-        "The corpus was downloaded directly from Hugging Face (cfilt/iitb-english-hindi). All untranslated strings, web-crawled alignment artifacts, "
-        "and noisy sentence pairs were programmatically stripped using verified length, ratio, and script bounding filters (src/data.py)."
+        "The parallel corpus was downloaded directly from the official IIT Bombay English-Hindi Parallel Corpus via Hugging Face ("
+    )
+    add_hyperlink(p2, "https://huggingface.co/datasets/cfilt/iitb-english-hindi", "https://huggingface.co/datasets/cfilt/iitb-english-hindi", color="0563C1", underline=True, font_size_pt=10.5)
+    p2.add_run(
+        "). All untranslated strings, web-crawled alignment artifacts, and noisy sentence pairs were programmatically stripped using verified length, ratio, and script bounding filters (src/data.py)."
     )
 
     p2_hl = doc.add_paragraph()
@@ -333,7 +369,7 @@ def build_document(output_paths):
             r = p.add_run(val)
             r.font.size = Pt(8.0)
             if j in [4, 5, 6] and i == 5:
-                r.bold = True  # Highlight winning metrics
+                r.bold = True
 
     p_kf = doc.add_paragraph()
     p_kf.paragraph_format.space_before = Pt(6)
@@ -544,8 +580,13 @@ def build_document(output_paths):
     # Save to all requested paths
     for path in output_paths:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        doc.save(path)
-        print(f"Successfully generated Word report: {path}")
+        try:
+            doc.save(path)
+            print(f"Successfully generated Word report: {path}")
+        except PermissionError:
+            alt_path = path.replace(".docx", "_Updated.docx")
+            doc.save(alt_path)
+            print(f"File locked in Word ({path}). Saved updated version to: {alt_path}")
 
 if __name__ == "__main__":
     targets = [
@@ -553,6 +594,5 @@ if __name__ == "__main__":
         "fgai-ia3-english-hindi-mt/submission/FGAI_IA3_Report.docx",
         "submission/ParthVerma_230953436_FGAI_Assignment3.docx",
         "submission/FGAI_IA3_Report.docx",
-        "fgai-ia3-english-hindi-mt/ParthVerma_230953436_FGAI_Assignment3.docx",
     ]
     build_document(targets)
